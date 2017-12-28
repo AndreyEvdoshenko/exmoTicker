@@ -50,7 +50,7 @@ public class tickerProcess {
         List<exmoTicker> tickers = returnTickers();
         for (exmoTicker ticker : tickers) {
             jdbcTemplate.update(
-                    "INSERT INTO tikers(pair,high,low,avg,vol,vol_curr,last_trade,buy_price,sell_price) values(?,?,?,?,?,?,?,?,?)",
+                    "INSERT INTO tikers(pair,high,low,avg,vol,vol_curr,last_trade,buy_price,sell_price,updated) values(?,?,?,?,?,?,?,?,?,?)",
                     ticker.getPair(),
                     ticker.getHigh(),
                     ticker.getLow(),
@@ -59,8 +59,10 @@ public class tickerProcess {
                     ticker.getVol_curr(),
                     ticker.getLast_trade(),
                     ticker.getBuy_price(),
-                    ticker.getSell_price()
-                    );
+                    ticker.getSell_price(),
+                    ticker.getUpdated()
+
+            );
         }
     }
 
@@ -70,6 +72,7 @@ public class tickerProcess {
         try {
             String resultJson = httpClient.getHttp(URL_RETURN_TICKER, null);
             JSONObject jsonObject = (JSONObject) JSONValue.parseWithException(resultJson);
+            String updatedTime = getUpdatedTime();
             for (String pair : currencyPair) {
                 Map<String, String> currentExmoPair = (Map<String, String>) jsonObject.get(pair);
                 exmoTicker ticker = new exmoTicker();
@@ -82,7 +85,7 @@ public class tickerProcess {
                 ticker.setLast_trade(new BigDecimal(String.valueOf(currentExmoPair.get("last_trade"))));
                 ticker.setBuy_price(new BigDecimal(String.valueOf(currentExmoPair.get("buy_price"))));
                 ticker.setSell_price(new BigDecimal(String.valueOf(currentExmoPair.get("sell_price"))));
-//                ticker.setUpdated(currentExmoPair.get("updated"));
+                ticker.setUpdated(updatedTime);
                 listTicker.add(ticker);
             }
 
@@ -92,6 +95,18 @@ public class tickerProcess {
             e.printStackTrace();
         }
         return listTicker;
+    }
+
+    private String getUpdatedTime() {
+        Calendar calendar = Calendar.getInstance();
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(calendar.get(calendar.YEAR)).append("/")
+                .append(calendar.get(calendar.MONTH)).append("/")
+                .append(calendar.get(calendar.DAY_OF_MONTH)).append(" ")
+                .append(calendar.get(calendar.HOUR_OF_DAY)).append(":")
+                .append(calendar.get(calendar.MINUTE)).append(":")
+                .append(calendar.get(calendar.SECOND));
+        return fileName.toString();
     }
 
 }

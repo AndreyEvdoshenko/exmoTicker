@@ -7,5 +7,6 @@ CREATE TABLE tikers (
   vol_curr CHAR(64),
   last_trade CHAR(64),
   buy_price CHAR(64),
-  sell_price CHAR(64)
+  sell_price CHAR(64),
+  updated char(20)
   );
