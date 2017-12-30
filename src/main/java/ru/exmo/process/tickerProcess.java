@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -45,7 +46,7 @@ public class tickerProcess {
                 "BTC_RUB", "BTC_USD", "BTC_EUR"));
     }
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRate = 5000)
     public void runProcess() {
         List<exmoTicker> tickers = returnTickers();
         for (exmoTicker ticker : tickers) {
@@ -72,7 +73,7 @@ public class tickerProcess {
         try {
             String resultJson = httpClient.getHttp(URL_RETURN_TICKER, null);
             JSONObject jsonObject = (JSONObject) JSONValue.parseWithException(resultJson);
-            String updatedTime = getUpdatedTime();
+            Timestamp updatedTime = new Timestamp(System.currentTimeMillis());
             for (String pair : currencyPair) {
                 Map<String, String> currentExmoPair = (Map<String, String>) jsonObject.get(pair);
                 exmoTicker ticker = new exmoTicker();
@@ -95,18 +96,6 @@ public class tickerProcess {
             e.printStackTrace();
         }
         return listTicker;
-    }
-
-    private String getUpdatedTime() {
-        Calendar calendar = Calendar.getInstance();
-        StringBuilder fileName = new StringBuilder();
-        fileName.append(calendar.get(calendar.YEAR)).append("/")
-                .append(calendar.get(calendar.MONTH)).append("/")
-                .append(calendar.get(calendar.DAY_OF_MONTH)).append(" ")
-                .append(calendar.get(calendar.HOUR_OF_DAY)).append(":")
-                .append(calendar.get(calendar.MINUTE)).append(":")
-                .append(calendar.get(calendar.SECOND));
-        return fileName.toString();
     }
 
 }

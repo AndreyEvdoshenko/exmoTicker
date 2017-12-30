@@ -3,6 +3,7 @@ package ru.exmo.model;
 import org.json.simple.JSONObject;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * Created by Andrash on 24.12.2017.
@@ -18,7 +19,7 @@ public class exmoTicker {
     private BigDecimal last_trade; //  цена последней сделки
     private BigDecimal buy_price; //  текущая максимальная цена покупки
     private BigDecimal sell_price; // текущая минимальная цена продажи
-    private String updated; //  дата и время обновления данных
+    private Timestamp updated; //  дата и время обновления данных
 
     public exmoTicker() {
 
@@ -96,11 +97,11 @@ public class exmoTicker {
         this.sell_price = sell_price;
     }
 
-    public String getUpdated() {
+    public Timestamp getUpdated() {
         return updated;
     }
 
-    public void setUpdated(String updated) {
+    public void setUpdated(Timestamp updated) {
         this.updated = updated;
     }
 

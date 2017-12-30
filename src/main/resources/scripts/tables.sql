@@ -8,5 +8,7 @@ CREATE TABLE tikers (
   last_trade CHAR(64),
   buy_price CHAR(64),
   sell_price CHAR(64),
-  updated char(20)
+  updated TIMESTAMP
   );
+
+select count(*) from tikers
