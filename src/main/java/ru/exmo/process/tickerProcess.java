@@ -1,6 +1,5 @@
 package ru.exmo.process;
 
-import javafx.beans.binding.StringBinding;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
@@ -11,13 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.exmo.model.exmoTicker;
 import ru.exmo.utils.HTTPClient;
-
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
@@ -32,6 +26,7 @@ public class tickerProcess {
     private List<String> currencyPair;
     private final String URL_RETURN_TICKER = "https://api.exmo.com/v1/ticker/";
 
+    private static  int count = 0;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -49,6 +44,7 @@ public class tickerProcess {
     @Scheduled(fixedRate = 5000)
     public void runProcess() {
         List<exmoTicker> tickers = returnTickers();
+        System.out.println(count++ + " save ticker, interval - 5 sec");
         for (exmoTicker ticker : tickers) {
             jdbcTemplate.update(
                     "INSERT INTO tikers(pair,high,low,avg,vol,vol_curr,last_trade,buy_price,sell_price,updated) values(?,?,?,?,?,?,?,?,?,?)",
@@ -67,6 +63,15 @@ public class tickerProcess {
         }
     }
 
+    @Scheduled(fixedRate = 12000000)
+    public void deleteOldTicker(){
+    //delete from tikers where update < timestamp
+        count = 0;
+        System.out.println("deleteOldTicker 20 min");
+        this.jdbcTemplate.update(
+                "delete from tikers where updated < ?",
+                new Timestamp(System.currentTimeMillis()-12000000));
+    }
 
     private List<exmoTicker> returnTickers() {
         List<exmoTicker> listTicker = new ArrayList<>();
