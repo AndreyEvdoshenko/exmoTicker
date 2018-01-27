@@ -2,7 +2,6 @@ package ru.exmo.model;
 
 import org.json.simple.JSONObject;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -11,14 +10,14 @@ import java.sql.Timestamp;
 public class exmoTicker {
 
     private String pair;
-    private BigDecimal high; // максимальная цена сделки за 24 часа
-    private BigDecimal low; //  минимальная цена сделки за 24 часа
-    private BigDecimal avg; // средняя цена сделки за 24 часа
-    private BigDecimal vol; //  объем всех сделок за 24 часа
-    private BigDecimal vol_curr; //  сумма всех сделок за 24 часа
-    private BigDecimal last_trade; //  цена последней сделки
-    private BigDecimal buy_price; //  текущая максимальная цена покупки
-    private BigDecimal sell_price; // текущая минимальная цена продажи
+    private float high; // максимальная цена сделки за 24 часа
+    private float low; //  минимальная цена сделки за 24 часа
+    private float avg; // средняя цена сделки за 24 часа
+    private float vol; //  объем всех сделок за 24 часа
+    private float vol_curr; //  сумма всех сделок за 24 часа
+    private float last_trade; //  цена последней сделки
+    private float buy_price; //  текущая максимальная цена покупки
+    private float sell_price; // текущая минимальная цена продажи
     private Timestamp updated; //  дата и время обновления данных
 
     public exmoTicker() {
@@ -33,67 +32,67 @@ public class exmoTicker {
         this.pair = pair;
     }
 
-    public BigDecimal getHigh() {
+    public float getHigh() {
         return high;
     }
 
-    public void setHigh(BigDecimal high) {
+    public void setHigh(float high) {
         this.high = high;
     }
 
-    public BigDecimal getLow() {
+    public float getLow() {
         return low;
     }
 
-    public void setLow(BigDecimal low) {
+    public void setLow(float low) {
         this.low = low;
     }
 
-    public BigDecimal getAvg() {
+    public float getAvg() {
         return avg;
     }
 
-    public void setAvg(BigDecimal avg) {
+    public void setAvg(float avg) {
         this.avg = avg;
     }
 
-    public BigDecimal getVol() {
+    public float getVol() {
         return vol;
     }
 
-    public void setVol(BigDecimal vol) {
+    public void setVol(float vol) {
         this.vol = vol;
     }
 
-    public BigDecimal getVol_curr() {
+    public float getVol_curr() {
         return vol_curr;
     }
 
-    public void setVol_curr(BigDecimal vol_curr) {
+    public void setVol_curr(float vol_curr) {
         this.vol_curr = vol_curr;
     }
 
-    public BigDecimal getLast_trade() {
+    public float getLast_trade() {
         return last_trade;
     }
 
-    public void setLast_trade(BigDecimal last_trade) {
+    public void setLast_trade(float last_trade) {
         this.last_trade = last_trade;
     }
 
-    public BigDecimal getBuy_price() {
+    public float getBuy_price() {
         return buy_price;
     }
 
-    public void setBuy_price(BigDecimal buy_price) {
+    public void setBuy_price(float buy_price) {
         this.buy_price = buy_price;
     }
 
-    public BigDecimal getSell_price() {
+    public float getSell_price() {
         return sell_price;
     }
 
-    public void setSell_price(BigDecimal sell_price) {
+    public void setSell_price(float sell_price) {
         this.sell_price = sell_price;
     }
 
